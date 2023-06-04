@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SWE590!</title>
+    <style>
+    h1 {
+        color: #1405ed;
+        font-family: system-ui;
+		margin-left: 20px;
+        }
+	body {
+        background-color: #c0f5fc;
+        }
+    label {
+        color: #0e9ec9;
+        font-family: system-ui;
+        font-size: 20px;
+        margin-left: 20px;
+		margin-top: 20px;
+        }
+     button {
+        background-color: #0e9ec9;
+		border-color: #0e9ec9;
+		color: #FFFFFF;
+        font-family: system-ui;
+        font-size: 20px;
+		font-weight: bold;
+        margin-left: 30px;
+		margin-top: 20px;
+		width: 140px;
+        }
+	 input {
+        color: #222629;
+        font-family: system-ui;
+        font-size: 20px;
+        margin-left: 10px;
+		margin-top: 20px;
+		width: 100px;
+        }
+    </style>
+    <script>
+        // callAPI function used in onClick method of buttons
+        var callAPI = (days,hours,operation)=>{
+            // instantiate a headers object
+            var myHeaders = new Headers();
+            // add content type header to object
+            myHeaders.append("Content-Type", "application/json");
+            // using built in JSON utility package turn object to string and store in a variable
+            var raw = JSON.stringify({"days":days,"hours":hours,"operation":operation});
+            // create a JSON object with parameters for API call and store in a variable
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+            // make API call
+            fetch(API_URL, requestOptions)
+            .then(response => response.text())
+            .then(result => alert(JSON.parse(result).body))
+            .catch(error => console.log('error', error));
+        }
+    </script>
+</head>
+<body>
+    <h1>SWE590 Deployed!</h1>
+	<form>
+		<label>Days:</label>
+		<input type="text" id="days">
+        <label>Hours:</label>
+		<input type="text" id="hours">
+		<label>Convert to:</label>
+        <!-- set callAPI method to button onClick method -->
+        <button type="button" value="minutes" onclick="callAPI(document.getElementById('days').value,document.getElementById('hours').value,this.value)">MINUTES</button>
+		<button type="button" value="seconds" onclick="callAPI(document.getElementById('days').value,document.getElementById('hours').value,this.value)">SECONDS</button>
+    </form>
+</body>
+</html>
